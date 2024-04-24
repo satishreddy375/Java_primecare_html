@@ -3,15 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mt</groupId>
-	<artifactId>maven-web-application</artifactId>
+	<artifactId>java_primecare_html</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 
-	<description>Maven Web Project for Java Project</description>
+	<description>java project for primecare application</description>
 
 	<organization>
-		<name>satish-practice</name>
-		<url>http://satish-practice.com/</url>
+		<name>Practice_section</name>
+		<url>http://practice.com/</url>
 	</organization>
 
 	<properties>
@@ -19,9 +19,9 @@
 		<spring.version>5.1.2.RELEASE</spring.version>
 		<junit.version>4.11</junit.version>
 		<log4j.version>1.2.17</log4j.version>
-		<sonar.host.url>http://15.206.94.37:9000/</sonar.host.url>
+		<!-- <sonar.host.url>http://15.206.94.37:9000/</sonar.host.url>
 		<sonar.login>admin</sonar.login>
-		<sonar.password>admin123</sonar.password>
+		<sonar.password>admin123</sonar.password> -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -101,14 +101,14 @@
 
 	    <snapshotRepository>
 	      <id>nexus</id>
-	      <name>Snapshot Nexus Repository </name>
+	      <name>Nexus Repository </name>
 	      <url>http://13.233.224.192:8081/repository/maven-snapshots/</url>
 	    </snapshotRepository>
 
 	</distributionManagement>
 
 	<build>
-		<finalName>maven-web-application</finalName>
+		<finalName>Java_primecare_html</finalName>
 
 		<plugins>
 			<plugin>
@@ -128,7 +128,7 @@
 				<configuration>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 					<webApp>
-						<contextPath>/maven-web-application</contextPath>
+						<contextPath>/Java_primecare_html</contextPath>
 					</webApp>
 				</configuration>
 			</plugin>
@@ -141,7 +141,7 @@
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
 					<wtpversion>2.0</wtpversion>
-					<wtpContextName>maven-web-application</wtpContextName>
+					<wtpContextName>Java_primecare_html</wtpContextName>
 				</configuration>
 			</plugin>
 
