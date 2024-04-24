@@ -3,17 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.mt</groupId>
-	<artifactId>java_primecare_html</artifactId>
+	<artifactId>maven-web-application</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 
-	<name>Java_primecare_html</name>
-
-	<description>java project for primecare application</description>
+	<description>Maven Web Project for Java Project</description>
 
 	<organization>
-		<name>Practice_section</name>
-		<url>http://practice.com/</url>
+		<name>satish-practice</name>
+		<url>http://satish-practice.com/</url>
 	</organization>
 
 	<properties>
@@ -97,20 +95,20 @@
 
 	    <repository>
 	      <id>nexus</id>
-	      <name>Release Nexus Repository</name>
+	      <name>Nexus Repository</name>
 	      <url>http://13.233.224.192:8081/repository/maven-releases/</url>
 	    </repository>
 
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>Snapshot Nexus Repository </name>
-	      <url>http://13.233.224.192:8081/repository/maven-snapshot/</url>
+	      <url>http://13.233.224.192:8081/repository/maven-snapshots/</url>
 	    </snapshotRepository>
 
 	</distributionManagement>
 
 	<build>
-		<finalName>java_primecare_html</finalName>
+		<finalName>maven-web-application</finalName>
 
 		<plugins>
 			<plugin>
@@ -130,7 +128,7 @@
 				<configuration>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 					<webApp>
-						<contextPath>/Java_primecare_html</contextPath>
+						<contextPath>/maven-web-application</contextPath>
 					</webApp>
 				</configuration>
 			</plugin>
@@ -143,7 +141,7 @@
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
 					<wtpversion>2.0</wtpversion>
-					<wtpContextName>Java_primecare_html</wtpContextName>
+					<wtpContextName>maven-web-application</wtpContextName>
 				</configuration>
 			</plugin>
 
