@@ -1,0 +1,76 @@
+pipeline {
+    agent any
+    tools {
+        maven 'maven_3.9.4'
+    }
+    triggers{
+        pollSCM('H/5 * * * *') // Polls the SCM (Git) every 5 minutes
+    }
+    stages {
+        stage('git checkout') {
+            steps {
+                git branch: 'main', changelog: false, credentialsId: 'Github_Credentials', poll: false, url: 'https://github.com/satishreddy375/Java_primecare_html.git'
+            }
+        }
+        stage('maven package') {
+            steps {
+                sh "mvn clean package"
+            }
+        }
+        stage('mvn sonar') {
+            steps {
+                sh "mvn clean sonar:sonar"
+            }
+        }
+        stage('mvn nexus') {
+            steps {
+                sh "mvn clean deploy"
+            }
+        }
+        stage('tomcat') {
+            steps {
+                script {
+                    sshagent(['f1ace984-543b-411b-9e23-8d1bf715e4a2']) {
+                        sh 'scp -o "StrictHostKeyChecking=no" /var/lib/jenkins/workspace/Declarative-pipeline/target/primecare-html.war/ ubuntu@13.201.22.128:/opt/apache-tomcat-9.0.88/webapps/'
+                    }
+                }
+            }
+        }
+        stage('docker deploy'){
+            steps{
+                sshagent(['Docker_host']) {
+                    sh 'scp -o "StrictHostKeyChecking=no" /var/lib/jenkins/workspace/Declarative-pipeline/target/primecare-html.war/ dockeradmin@3.7.68.117:/home/dockeradmin'
+                }
+                
+            }
+        }
+        stage('Create Dockerfile on Docker Host') {
+            steps {
+                script {
+                    sshagent(['Docker_host']) {
+                        sh 'ssh dockeradmin@3.7.68.117 "cat <<EOF > /home/dockeradmin/Dockerfile\nFROM tomcat:latest\nRUN cp -R  /usr/local/tomcat/webapps.dist/*  /usr/local/tomcat/webapps\nCOPY ./*.war /usr/local/tomcat/webapps\nEOF"'
+                                }
+                        }
+                }
+        }
+        stage('Create a image using Dockerfile'){
+            steps{
+                script {
+                    sshagent(['Docker_host']) {
+                        sh 'ssh dockeradmin@3.7.68.117 "docker build -t docker-image /home/dockeradmin"'
+                    }
+                }
+            }
+        }
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    sshagent(['Docker_host']) {
+                        sh 'ssh dockeradmin@3.7.68.117 "docker run -d --name Docker_container -p 8080:8080 docker-image"'
+                    }
+                }
+            }
+        }
+
+}
+}
