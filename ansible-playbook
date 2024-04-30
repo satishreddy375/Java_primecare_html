@@ -1,0 +1,20 @@
+---
+- name: Build and push Docker image
+  hosts: docker_host
+  become: true
+  tasks:
+    - name: Build Docker image
+      docker_image:
+        path: /home/ansadmin
+        name: docker-image
+        tag: latest
+        source: build
+    - name: Push Docker image to registry (optional)
+      docker_login:
+        registry: satishreddy375/integration
+        username: satishreddy375
+        password: *******
+    - name: Push Docker image
+      docker_image:
+        name: satishreddy375/integration
+        push: yes
