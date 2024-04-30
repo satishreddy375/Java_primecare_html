@@ -9,7 +9,7 @@
         name: docker-image
         tag: latest
         source: build
-    - name: Push Docker image to registry (optional)
+    - name: Push Docker image to registry
       docker_login:
         registry: satishreddy375/integration
         username: satishreddy375
