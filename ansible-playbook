@@ -1,20 +1,16 @@
 ---
-- name: Build and push Docker image
-  hosts: docker_host
-  become: true
+- name: Ansible-Docker for integration
+  hosts: localhost
   tasks:
-    - name: Build Docker image
-      docker_image:
-        path: /home/ansadmin
-        name: docker-image
-        tag: latest
-        source: build
-    - name: Push Docker image to registry
-      docker_login:
-        registry: satishreddy375/integration
-        username: satishreddy375
-        password: *******
-    - name: Push Docker image
-      docker_image:
+    - name: Build Docker Image
+      community.docker.docker_image_build:
         name: satishreddy375/integration
+        path: /home/ansadmin
+        tag: latest
+    - name: Push Docker image
+      community.docker.docker_image:
+        name: satishreddy375/integration
+        repository: index.docker.io/satishreddy375/integration
+        tag: latest
+        source: local
         push: yes
