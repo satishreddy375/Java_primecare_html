@@ -1,0 +1,57 @@
+---
+- name: Setup web server
+  hosts: [Dev-Sonar]
+  become: yes
+  tasks:
+
+    - name: Update all packages to their latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+
+    - name: Install Java 17
+      ansible.builtin.apt:
+        name: openjdk-17-jre
+        state: present
+
+    - name: Download file from a file path
+      ansible.builtin.get_url:
+        url: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.1.69595.zip
+        dest: /opt
+
+    - name: Installing Unzip
+      ansible.builtin.apt:
+        name: unzip
+        state: present
+
+    - name: Unzip gz log
+      ansible.builtin.unarchive:
+        src: /opt/sonarqube-9.9.1.69595.zip
+        dest: /opt
+        remote_src: yes
+
+    - name: Creating a sonar user
+      ansible.builtin.user:
+        name: sonar
+        state: present
+
+    - name: Change file ownership, group and permissions
+      ansible.builtin.file:
+        path: /opt/sonarqube-9.9.1.69595/
+        owner: sonar
+        group: sonar
+        mode: '0755'
+
+    - name: Allow 'sonar' user to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: 'sonar'
+        line: 'sonar ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Start SonarQube as sonar user
+      become_user: sonar
+      shell: |
+        cd /opt/sonarqube-9.9.1.69595/bin/linux-x86-64/
+        ./sonar.sh start
