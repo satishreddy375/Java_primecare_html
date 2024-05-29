@@ -1,0 +1,30 @@
+---
+- name: Setup web server
+  hosts: [Dev-Maven]
+  become: yes
+  tasks:
+    - name: Update all packages to their latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+
+    - name: Install Java 17
+      ansible.builtin.apt:
+        name: openjdk-17-jre
+        state: present
+
+    - name: Download file from a file path
+      ansible.builtin.get_url:
+        url: https://dlcdn.apache.org/maven/maven-3/3.9.4/binaries/apache-maven-3.9.4-bin.zip
+        dest: /opt
+
+    - name: Installing Unzip
+      ansible.builtin.apt:
+        name: unzip
+        state: present
+
+    - name: Unzip gz log
+      ansible.builtin.unarchive:
+        src: /opt/apache-maven-3.9.4-bin.zip
+        dest: /opt
+        remote_src: yes
