@@ -1,0 +1,73 @@
+---
+- name: Setup web server
+  hosts: [Dev-Nexus]
+  become: yes
+  tasks:
+    
+    - name: Update all packages to their latest version
+      ansible.builtin.apt:
+        name: "*"
+        state: latest
+
+    - name: Install Java 8
+      ansible.builtin.apt:
+        name: openjdk-8-jre
+        state: present
+
+    - name: Download file from a file path
+      ansible.builtin.get_url:
+        url: http://download.sonatype.com/nexus/3/nexus-3.15.2-01-unix.tar.gz
+        dest: /opt
+
+    - name: Extract Nexus archive
+      ansible.builtin.unarchive:
+        src: /opt/nexus-3.15.2-01-unix.tar.gz
+        dest: /opt/
+        remote_src: yes
+
+    - name: Creating a sonar user
+      ansible.builtin.user:
+        name: nexus
+        state: present
+
+    - name: Change file ownership, group and permissions nexus
+      ansible.builtin.file:
+        path: /opt/nexus-3.15.2-01
+        owner: nexus
+        group: nexus
+        mode: '0755'
+
+    - name: Change file ownership, group and permissions for sonatype-work
+      ansible.builtin.file:
+        path: /opt/sonatype-work/
+        owner: nexus
+        group: nexus
+        mode: '0755'
+
+    - name: Allow 'nexus' user to have passwordless sudo
+      ansible.builtin.lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: 'nexus'
+        line: 'nexus ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: Set run_as_user in nexus.rc
+      ansible.builtin.lineinfile:
+        path: /opt/nexus-3.15.2-01/bin/nexus.rc
+        regexp: '^run_as_user='
+        line: 'run_as_user="nexus"'
+
+    - name: Create symbolic link
+      ansible.builtin.file:
+        src: /opt/nexus-3.15.2-01/bin/nexus
+        dest: /etc/init.d/nexus
+        state: link
+
+    - name: Run command as nexus user
+      ansible.builtin.command:
+        cmd: |
+          sudo systemctl enable nexus
+          sudo systemctl start nexus
+      become: true
+      become_user: nexus
