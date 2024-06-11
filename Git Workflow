@@ -1,0 +1,220 @@
+Sure! Here’s a comprehensive guide to every command in Git, detailing their usage without involving GitHub:
+
+### Basic Commands
+
+1. **git init**
+   - Initializes a new Git repository in the current directory.
+   ```sh
+   git init
+   ```
+
+2. **git clone**
+   - Clones a repository into a newly created directory.
+   ```sh
+   git clone <repository-url>
+   ```
+
+3. **git add**
+   - Adds file contents to the index (staging area).
+   ```sh
+   git add <file>           # Add a specific file
+   git add .                # Add all changes in the current directory
+   ```
+
+4. **git commit**
+   - Records changes to the repository.
+   ```sh
+   git commit -m "Commit message"
+   git commit               # Opens the default editor to write the commit message
+   ```
+
+5. **git status**
+   - Shows the working tree status.
+   ```sh
+   git status
+   ```
+
+6. **git log**
+   - Shows the commit logs.
+   ```sh
+   git log
+   git log --oneline        # Displays commits in a compact format
+   git log --graph --all    # Shows a graph of all branches
+   ```
+
+7. **git diff**
+   - Shows changes between commits, commit and working tree, etc.
+   ```sh
+   git diff
+   git diff <commit>        # Differences between working tree and specified commit
+   git diff <commit1> <commit2>  # Differences between two commits
+   ```
+
+### Branching and Merging
+
+8. **git branch**
+   - Lists, creates, or deletes branches.
+   ```sh
+   git branch               # List all branches
+   git branch <branch-name> # Create a new branch
+   git branch -d <branch-name> # Delete a branch
+   ```
+
+9. **git checkout**
+   - Switches branches or restores working tree files.
+   ```sh
+   git checkout <branch-name>      # Switch to a branch
+   git checkout -b <branch-name>   # Create and switch to a new branch
+   git checkout <commit>           # Check out a specific commit
+   ```
+
+10. **git merge**
+    - Joins two or more development histories together.
+    ```sh
+    git merge <branch-name>   # Merge specified branch into the current branch
+    ```
+
+11. **git rebase**
+    - Reapplies commits on top of another base tip.
+    ```sh
+    git rebase <branch-name>  # Rebase the current branch on top of the specified branch
+    ```
+
+### Stashing and Cleaning
+
+12. **git stash**
+    - Stashes changes in a dirty working directory away.
+    ```sh
+    git stash                 # Stash current changes
+    git stash apply           # Apply stashed changes
+    git stash list            # List all stashes
+    ```
+
+13. **git clean**
+    - Removes untracked files from the working directory.
+    ```sh
+    git clean -f              # Forcefully remove untracked files
+    git clean -fd             # Remove untracked files and directories
+    ```
+
+### Remote Repositories
+
+14. **git remote**
+    - Manages set of tracked repositories.
+    ```sh
+    git remote                # List remote repositories
+    git remote add <name> <url>  # Add a new remote repository
+    git remote remove <name>  # Remove a remote repository
+    ```
+
+15. **git fetch**
+    - Downloads objects and refs from another repository.
+    ```sh
+    git fetch <remote>        # Fetch all branches from the remote
+    ```
+
+16. **git pull**
+    - Fetches from and integrates with another repository or a local branch.
+    ```sh
+    git pull <remote> <branch> # Fetch and merge changes from the remote branch
+    ```
+
+17. **git push**
+    - Updates remote refs along with associated objects.
+    ```sh
+    git push <remote> <branch>  # Push local changes to the remote branch
+    git push -u <remote> <branch>  # Push and set upstream tracking
+    ```
+
+### Tagging
+
+18. **git tag**
+    - Creates, lists, deletes or verifies a tag object signed with GPG.
+    ```sh
+    git tag                    # List all tags
+    git tag <tag-name>         # Create a new tag
+    git tag -d <tag-name>      # Delete a tag
+    git push <remote> <tag-name> # Push a tag to the remote
+    ```
+
+### Configuration
+
+19. **git config**
+    - Gets and sets repository or global options.
+    ```sh
+    git config --global user.name "Your Name"  # Set global username
+    git config --global user.email "your.email@example.com"  # Set global email
+    git config --list             # List all configurations
+    ```
+
+### Advanced Commands
+
+20. **git cherry-pick**
+    - Applies the changes introduced by some existing commits.
+    ```sh
+    git cherry-pick <commit>    # Apply a commit to the current branch
+    ```
+
+21. **git revert**
+    - Reverts an existing commit by creating a new commit.
+    ```sh
+    git revert <commit>         # Create a new commit that reverses the changes made by the specified commit
+    ```
+
+22. **git reset**
+    - Resets current HEAD to the specified state.
+    ```sh
+    git reset --soft <commit>   # Move HEAD to a specified commit, but keep changes in the working directory
+    git reset --hard <commit>   # Move HEAD to a specified commit and discard changes in the working directory
+    ```
+
+23. **git rm**
+    - Removes files from the working tree and from the index.
+    ```sh
+    git rm <file>               # Remove a file from the repository
+    ```
+
+24. **git mv**
+    - Moves or renames a file, a directory, or a symlink.
+    ```sh
+    git mv <old-path> <new-path> # Move or rename a file
+    ```
+
+### Inspection and Comparison
+
+25. **git blame**
+    - Shows what revision and author last modified each line of a file.
+    ```sh
+    git blame <file>           # Show last modification details for each line of a file
+    ```
+
+26. **git show**
+    - Shows various types of objects.
+    ```sh
+    git show <commit>          # Show details of a specific commit
+    git show <tag>             # Show details of a specific tag
+    ```
+
+27. **git bisect**
+    - Uses binary search to find the commit that introduced a bug.
+    ```sh
+    git bisect start
+    git bisect bad             # Mark the current state as bad
+    git bisect good <commit>   # Mark a commit as good to start the bisect process
+    ```
+
+### Workflow Commands
+
+28. **git flow**
+    - Provides high-level repository operations for Vincent Driessen's branching model.
+    ```sh
+    git flow init              # Initialize GitFlow in the repository
+    git flow feature start <feature-name>  # Start a new feature
+    git flow feature finish <feature-name> # Finish a feature
+    git flow release start <version>  # Start a new release
+    git flow release finish <version> # Finish a release
+    git flow hotfix start <version>   # Start a new hotfix
+    git flow hotfix finish <version>  # Finish a hotfix
+    ```
+
+By mastering these commands, you'll have a solid understanding of how to work with Git effectively.
