@@ -4,7 +4,7 @@ pipeline {
         maven 'maven_3.9.4'
     }
     triggers{
-        pollSCM('H/5 * * * *') // Polls the SCM (Git) every 5 minutes
+        pollSCM('H/2 * * * *') // Polls the SCM (Git) every 2 minutes
     }
     stages {
         stage('git checkout') {
